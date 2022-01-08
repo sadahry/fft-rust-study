@@ -1,12 +1,12 @@
 use fft_rs::dtft;
 use std::f64::consts::PI;
 
-fn get_size(flame_len: i64) -> usize {
+fn get_size(flame_len: i64) -> i64 {
     let mut i: u32 = 0;
     while flame_len > 2i64.pow(i) {
         i += 1;
     }
-    2i64.pow(i) as usize
+    2i64.pow(i)
 }
 
 fn main() {
@@ -21,11 +21,9 @@ fn main() {
 
     let size = get_size(flame_len);
     let rslt = dtft(sin_curve, size);
-    let spectrum = &rslt[..(size / 2 as usize)];
 
     let (max_index, max) =
-        spectrum
-            .iter()
+        rslt.iter()
             .enumerate()
             .fold((usize::MIN, f64::MIN), |(i_a, a), (i_b, &b)| {
                 if b.norm() > a {
