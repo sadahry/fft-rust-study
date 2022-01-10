@@ -1,7 +1,7 @@
-use num::complex::Complex;
+use num::Complex;
 use std::f64::consts::PI;
 
-pub fn dtft(frames: Vec<f64>, size: usize) -> Vec<Complex<f64>> {
+pub fn dtft(frames: &[Complex<f64>], size: usize) -> Vec<Complex<f64>> {
     let mut rslt: Vec<Complex<f64>> = Vec::new();
     // 1 <= f <= size
     for f in 1..=(size) {

@@ -1,4 +1,5 @@
 use fft_rs::dtft;
+use num::Complex;
 use std::f64::consts::PI;
 
 fn get_size(flame_len: i64) -> usize {
@@ -14,13 +15,13 @@ fn main() {
     let flame_len = 400;
     let samplerate = 16000;
     let hz = 2000;
-    let sin_curve: Vec<f64> = (0..flame_len)
+    let sin_curve: Vec<Complex<f64>> = (0..flame_len)
         .map(|a| (a as f64) * 2.0 * PI * (hz as f64) / (samplerate as f64))
-        .map(|a| a.sin())
+        .map(|a| Complex::new(a.sin(), 0.0))
         .collect();
 
     let size = get_size(flame_len);
-    let rslt = dtft(sin_curve, size);
+    let rslt = dtft(&sin_curve, size);
     let spectrum = &rslt[..(size / 2 as usize)];
 
     let (max_index, max) =
