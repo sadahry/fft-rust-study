@@ -1,6 +1,7 @@
-use fft_rs::dtft;
+use fft_rs::*;
 use num::Complex;
 use std::f64::consts::PI;
+use std::time::Instant;
 
 fn get_size(flame_len: i64) -> usize {
     let mut i: u32 = 0;
@@ -12,7 +13,7 @@ fn get_size(flame_len: i64) -> usize {
 
 fn main() {
     // create sin_curve fn
-    let flame_len = 400;
+    let flame_len = 512;
     let samplerate = 16000;
     let hz = 2000;
     let sin_curve: Vec<Complex<f64>> = (0..flame_len)
@@ -21,7 +22,21 @@ fn main() {
         .collect();
 
     let size = get_size(flame_len);
-    let rslt = dtft(&sin_curve, size);
+    // let rslt = dtft(&sin_curve, size);
+    let rslt = cooley_tukey_fft(&sin_curve);
+
+    // calc time
+    let rep = 1000;
+    let start = Instant::now();
+    for _ in 0..rep {
+        cooley_tukey_fft(&sin_curve);
+    }
+    let end = start.elapsed();
+
+    let total = (end.as_secs() * 1000_000_000) + (end.subsec_nanos() as u64);
+    let time = (total as f64) / (rep as f64);
+    println!("time: {:?}", time);
+
     let spectrum = &rslt[..(size / 2 as usize)];
 
     let (max_index, max) =
