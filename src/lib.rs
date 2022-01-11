@@ -28,7 +28,7 @@ pub fn cooley_tukey_fft(frames: &[Complex<f64>]) -> Vec<Complex<f64>> {
     // nが2の累乗の場合"ゼロの個数＝2の累乗時の指数"となる
     let n_power2 = n.trailing_zeros();
     // nが2の累乗であることを確認
-    assert_eq!(n, 2usize.pow(n_power2));
+    assert_eq!(n, 1 << n_power2);
 
     // 処理結果を格納するVector
     // 最初は入力フレームの値(x_k)を代入
@@ -82,7 +82,7 @@ fn bit_reversed_indexes(power: u32) -> Vec<usize> {
     let mut r_indexes: Vec<usize> = Vec::new();
 
     // 最初に /0b0*10*/ を代入 ((power+1)番目のビット数が1)
-    let mut r_bit = 2usize.pow(power);
+    let mut r_bit = 1 << power;
 
     // power番目以下のビットを扱う
     // 最初に /0b0*/ を代入
