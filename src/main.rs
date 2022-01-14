@@ -1,4 +1,4 @@
-use fft_rs::*;
+use fft_rust_study::*;
 use num::Complex;
 use std::f64::consts::PI;
 use std::time::Instant;

@@ -1,5 +1,5 @@
 [package]
-name = "fft_rs"
+name = "fft_rust_study"
 version = "0.1.0"
 edition = "2021"
 
